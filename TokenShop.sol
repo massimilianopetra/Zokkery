@@ -6,7 +6,7 @@ interface IERC20 {
 
     event Transfer(address indexed from, address indexed to, uint256 value);
     event Approval(address indexed owner, address indexed spender, uint256 value);
-	event Track(string indexed _function, address sender, uint value, bytes data);
+    event Track(string indexed _function, address sender, uint value, bytes data);
 
     function totalSupply() external view returns (uint256);
     function balanceOf(address account) external view returns (uint256);
@@ -83,7 +83,7 @@ contract TokenShop {
         // At least pay for a lotSize
         require (msg.value >= _lotPrice);
         amount = _lotSize*(msg.value/_lotPrice);
-        require(IERC20(_tokenAddress).transferFrom(_tokenAddress,msg.sender,amount));
+        require(IERC20(_tokenAddress).transfer(msg.sender,amount));
         emit Track("fallback()", msg.sender, msg.value, msg.data);
     }
 
@@ -94,7 +94,7 @@ contract TokenShop {
         // At least pay for a lotSize
         require (msg.value >= _lotPrice);
         amount = _lotSize*(msg.value/_lotPrice);
-        require(IERC20(_tokenAddress).transferFrom(_tokenAddress,msg.sender,amount));
+        require(IERC20(_tokenAddress).transfer(msg.sender,amount));
         emit Track("receive()", msg.sender, msg.value, "");
     }
 }
